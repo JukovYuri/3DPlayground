@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ground
   - Target
+  - Button
+  - Floor
+  - PlatformFalling
   layers:
   - Default
   - TransparentFX

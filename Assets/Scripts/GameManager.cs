@@ -1,18 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private int score;
+    public Text textScore;
+
+    public Slider sliderForce;
+    SnowmanMovement snowmanMovement;
+
+
     void Start()
     {
-        
+        snowmanMovement = FindObjectOfType<SnowmanMovement>(); 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        sliderForce.value = snowmanMovement.GetForceInPercentage();
     }
 }

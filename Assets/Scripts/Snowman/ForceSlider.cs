@@ -5,12 +5,12 @@ using UnityEngine;
 public class ForceSlider : MonoBehaviour
 {
     [SerializeField] private GameObject slider;
-    PlayerMovement player;
+    SnowmanMovement snowmanMovement;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerMovement>();
+        snowmanMovement = FindObjectOfType<SnowmanMovement>();
     }
 
     // Update is called once per frame
