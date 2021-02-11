@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
 {
     public Action OnButtonPressed = delegate { };
     public Action OnPlatformMoving = delegate { };
+
+    public static PlayerMovement Instance { get; private set; }
 
     [Header("References")]
     [SerializeField] private CharacterController controller;
@@ -22,11 +25,24 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 startPosition;
 
+    private bool isReseting;
+
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     private void Start()
     {
         startPosition = transform.position;
     }
+
+
     void Update()
     {
         Rotate();
@@ -88,6 +104,25 @@ public class PlayerMovement : MonoBehaviour
             hit.collider.GetComponent<PlatformFalling>().FallingWithDelay();
         }
 
+    }
+
+    void ResetPosition()
+    {
+        transform.position = startPosition;
+        isReseting = true;
+
+    }
+
+    public void DoDamage()
+    {
+        //TODO отнимать и проверять жизнь
+        ResetPosition();
+    }
+
+    IEnumerator ResetPositionCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isReseting = false;
     }
 }
 
