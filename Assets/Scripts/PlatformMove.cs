@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlatformMove : MonoBehaviour
 {
 	bool isPlatformMoving;
+	float speed = 5f;
 
 	private void FixedUpdate()
 	{
@@ -24,7 +25,7 @@ public class PlatformMove : MonoBehaviour
 	
 	public void Moving()
 	{
-		transform.Translate(-transform.forward * Time.deltaTime);
+		transform.Translate(-transform.forward * Time.deltaTime * speed);
 	}
 
 	private void OnTriggerEnter(Collider other)
