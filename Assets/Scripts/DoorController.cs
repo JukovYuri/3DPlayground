@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
+using DG.Tweening;
 
 public class DoorController : MonoBehaviour
 {
@@ -22,14 +22,17 @@ public class DoorController : MonoBehaviour
 	{
 		//StopAllCoroutines();
 		//StartCoroutine(DoorUp());
-		animator.SetTrigger("Up");
+		//animator.SetTrigger("Up");
+		transform.DOMoveY(10f, 4f).SetEase(Ease.InOutElastic);
 	}
 
 	public void ActivateDown()
 	{
 		//StopAllCoroutines();
 		//StartCoroutine(DoorDown());
-		animator.SetTrigger("Down");
+		//animator.SetTrigger("Down");
+		transform.DOMoveY(0f, 4f).SetEase(Ease.InOutElastic);
+
 	}
 
 	IEnumerator DoorUp()

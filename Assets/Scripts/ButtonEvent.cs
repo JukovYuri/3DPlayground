@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Button02 : MonoBehaviour
+public class ButtonEvent : MonoBehaviour
 {
 	public UnityEvent OnPressed;
 	public UnityEvent OnUnPressed;
@@ -11,7 +11,6 @@ public class Button02 : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		OnPressed.Invoke();
-		print("qwert");
 	}
 
 	private void OnTriggerExit(Collider other)

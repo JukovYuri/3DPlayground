@@ -9,6 +9,8 @@ TagManager:
   - Button
   - Floor
   - PlatformFalling
+  - Hammer
+  - PlatformMove
   layers:
   - Default
   - TransparentFX
