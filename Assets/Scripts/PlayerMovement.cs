@@ -117,8 +117,13 @@ public class PlayerMovement : MonoBehaviour
 		{
 			hit.collider.GetComponent<PlatformFalling>().FallingWithDelay();
 		}
-
-
 	}
+
+
+	public void ChangeStartPosition(Vector3 position)
+	{
+		startPosition = position;
+	}
+
 }
 

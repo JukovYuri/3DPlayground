@@ -16,7 +16,7 @@ public class Money : MonoBehaviour
 		LevelManager.Instance.AddMoney();
 
 		Sequence sequence = DOTween.Sequence();
-		sequence.Append(transform.DOMoveY(moveY, timemoveY).SetRelative()).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+		sequence.Append(transform.DOMoveY(moveY, timemoveY,).SetRelative()).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 	}
 
 	private void Update()

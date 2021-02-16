@@ -8,25 +8,11 @@ public class PlatformMove : MonoBehaviour
 	bool isPlatformMoving;
 	float speed = 5f;
 
-	private void FixedUpdate()
-	{
-		if (isPlatformMoving)
-		{
-			Moving();
-		}
-	}
-
-
-
 	public void Move()
 	{
-		isPlatformMoving = true;
+		transform.DOMoveZ(-19f, 6f).SetLoops(-1, LoopType.Yoyo).SetUpdate(UpdateType.Fixed);
 	}
-	
-	public void Moving()
-	{
-		transform.Translate(-transform.forward * Time.deltaTime * speed);
-	}
+
 
 	private void OnTriggerEnter(Collider other)
 	{
