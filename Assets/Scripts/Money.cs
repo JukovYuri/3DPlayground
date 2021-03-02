@@ -10,12 +10,13 @@ public class Money : MonoBehaviour
 	[SerializeField] private float moveY = 2f;
 	[SerializeField] private float speedRotationY = 2f;
 	[SerializeField] private float timemoveY = 2f;
+	Sequence sequence;
 
 	void Start()
 	{
 		LevelManager.Instance.AddMoney();
 
-		Sequence sequence = DOTween.Sequence();
+		sequence = DOTween.Sequence();
 		sequence.Append(transform.DOMoveY(moveY, timemoveY).SetRelative()).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 	}
 
@@ -28,6 +29,7 @@ public class Money : MonoBehaviour
 	{
 		LevelManager.Instance.SubMoney();
 		Destroy(gameObject);
+		sequence.Kill();
 	}
 
 

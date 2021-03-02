@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+	[SerializeField] private bool isLive;
+
 	public static PlayerMovement Instance { get; private set; }
 
 	public Action OnButtonPressed = delegate { };
@@ -12,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("References")]
 	[SerializeField] private CharacterController controller;
+	[SerializeField] private Animator animator;
 
 	[Header("Movement config")]
 	[SerializeField] private float speedMove = 10f;
@@ -27,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private Vector3 startPosition;
 
+	Camera mainCamera;
+
 
 	private void Awake()
 	{
@@ -40,33 +45,63 @@ public class PlayerMovement : MonoBehaviour
 
 	}
 
-	private void Start()
+	public void SetStartPosition()
 	{
 		startPosition = transform.position;
 	}
-	void Update()
-	{
-		Rotate();
-		Move();
 
+	public void SetPlayerLive(bool isLive)
+	{
+		this.isLive = isLive;
 	}
 
-	private void Rotate()
+	private void Start()
 	{
-		float mouseHorizontal = Input.GetAxis("Mouse X");
-		transform.Rotate(transform.up, mouseHorizontal * speedRotate * Time.deltaTime);
+		SetPlayerLive(true);
+		SetStartPosition();
+		mainCamera = Camera.main;
+	}
+	void Update()
+	{
+
+		Move();
+
+
 	}
 
 	private void Move()
 	{
+		if (!isLive)
+		{
+			return;
+		}
+
 		float inputHorizontal = Input.GetAxis("Horizontal");
 		float inputVertical = Input.GetAxis("Vertical");
 
-		Vector3 moveDirection = transform.forward * inputVertical + transform.right * inputHorizontal;
-		if (moveDirection.magnitude > 1)
+		Vector3 forward = mainCamera.transform.forward;
+		Vector3 right = mainCamera.transform.right;
+		forward.y = right.y = 0;
+		forward.Normalize();
+		right.Normalize();
+
+		Vector3 moveDirection = forward * inputVertical + right * inputHorizontal;
+		if (moveDirection.sqrMagnitude > 1)
 		{
 			moveDirection.Normalize();
 		}
+
+		if (Mathf.Abs(inputHorizontal) > 0 || Mathf.Abs(inputVertical) > 0)
+		{
+			animator.SetBool("Running", true);
+			//transform.rotation = Quaternion.LookRotation(moveDirection);
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * speedRotate);
+		}
+		else
+		{
+			animator.SetBool("Running", false);
+		}
+		
 
 
 
@@ -83,22 +118,57 @@ public class PlayerMovement : MonoBehaviour
 			gravity += Physics.gravity.y * Time.deltaTime;
 		}
 
-
 		moveDirection.y = gravity;
+		JumpAnimation();
 		controller.Move(moveDirection * speedMove * Time.deltaTime);
 	}
 
-	public void ApplyDamage()
-	{ 
-		--lives;
-		controller.enabled = false;
-		ResetPosition();
-		controller.enabled = true;
+	private void JumpAnimation()
+	{
+		if (gravity > 0 )
+		{
+			animator.SetInteger("Gravity", 1);
+		}
+		else if (gravity < -0.1f)
+		{
+			animator.SetInteger("Gravity", -1);
+		}
+		else
+		{
+			animator.SetInteger("Gravity", 0);
+		}
+	
 	}
 
-	private void ResetPosition()
+	public void ApplyDamage()
 	{
+		if (!isLive)
+		{
+			return;
+		}
+
+		//--lives; todo
+		ApplyDeath();
+
+	}
+
+	public void ApplyDeath()
+	{
+		SetPlayerLive(false);
+		animator.SetTrigger("Death");
+	}
+
+	public void ResetAfterDeath() // вызываем из animator event 
+	{
+		ResetPosition();
+		SetPlayerLive(true);
+	}
+
+	public void ResetPosition() 
+	{
+		ControllerActive(false);
 		transform.position = startPosition;
+		ControllerActive(true);
 	}
 
 	private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -117,8 +187,12 @@ public class PlayerMovement : MonoBehaviour
 		{
 			hit.collider.GetComponent<PlatformFalling>().FallingWithDelay();
 		}
-
-
 	}
+
+	public void ControllerActive(bool enabled)
+	{
+		controller.enabled = enabled;
+	}
+
 }
 

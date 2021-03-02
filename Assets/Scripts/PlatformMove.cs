@@ -5,27 +5,10 @@ using UnityEngine;
 
 public class PlatformMove : MonoBehaviour
 {
-	bool isPlatformMoving;
-	float speed = 5f;
 
-	private void FixedUpdate()
-	{
-		if (isPlatformMoving)
-		{
-			Moving();
-		}
-	}
-
-
-
-	public void Move()
-	{
-		isPlatformMoving = true;
-	}
-	
 	public void Moving()
 	{
-		transform.Translate(-transform.forward * Time.deltaTime * speed);
+		transform.DOMoveZ(-18f, 5f).SetLoops(-1, LoopType.Yoyo).SetUpdate(UpdateType.Fixed);
 	}
 
 	private void OnTriggerEnter(Collider other)

@@ -20,17 +20,11 @@ public class DoorController : MonoBehaviour
 
 	public void ActivateUp()
 	{
-		//StopAllCoroutines();
-		//StartCoroutine(DoorUp());
-		//animator.SetTrigger("Up");
 		transform.DOMoveY(10f, 4f).SetEase(Ease.InOutElastic);
 	}
 
 	public void ActivateDown()
 	{
-		//StopAllCoroutines();
-		//StartCoroutine(DoorDown());
-		//animator.SetTrigger("Down");
 		transform.DOMoveY(0f, 4f).SetEase(Ease.InOutElastic);
 
 	}

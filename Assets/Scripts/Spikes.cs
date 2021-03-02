@@ -24,7 +24,7 @@ public class Spikes : MonoBehaviour
 
 		sequence = DOTween.Sequence();
 		sequence.Append(transform.DOMoveY(positionUpY, timeUpY));
-		sequence.Append(transform.DOShakePosition(5f,0.5f,10));
+		sequence.Append(transform.DOShakePosition(5f, 0.5f, 10));
 		sequence.AppendInterval(timeDelayUpY);
 		sequence.Append(transform.DOMoveY(positionDownY, timeDownY));
 		sequence.AppendInterval(timeDelayDownY);
