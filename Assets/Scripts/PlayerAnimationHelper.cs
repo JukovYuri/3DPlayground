@@ -46,7 +46,6 @@ public class PlayerAnimationHelper : MonoBehaviour
 		isAttacking = false;
 		weapon.MeleeAttackEnd();
 		animator.ResetTrigger("Attack");
-		checkCombo = true;
 	}
 	public void DeathEnd()
 	{
@@ -60,10 +59,9 @@ public class PlayerAnimationHelper : MonoBehaviour
 
 	public void ComboEnd()
 	{
-		if (checkCombo)
-		{
-			checkCombo = false;
-			animator.SetTrigger("Attack2");
-		}
+
+		checkCombo = false;
+		print("ComboEnd");
+
 	}
 }

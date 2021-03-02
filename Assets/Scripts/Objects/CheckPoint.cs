@@ -6,6 +6,6 @@ public class CheckPoint : MonoBehaviour
 {
 	private void OnTriggerEnter(Collider other)
 	{
-		PlayerMovement.Instance.ChangeStartPosition(transform.position);
+		PlayerMovement.Instance.SetStartPosition();
 	}
 }
